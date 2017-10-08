@@ -1,9 +1,11 @@
 package com.khamcare.app.service;
 
+import com.khamcare.app.boundary.error.DuplicationException;
 import com.khamcare.app.model.User;
 import com.khamcare.app.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -30,4 +32,18 @@ public class UserService {
     public User findUserByEmail(String email){
         return userRepository.findUserByEmail(email);
     }
+
+    /**
+     *
+     * @param user
+     * @return
+     */
+    public User saveUser(User user) throws DuplicationException {
+        try {
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException e){
+            throw new DuplicationException(e.getMessage());
+        }
+    }
+
 }

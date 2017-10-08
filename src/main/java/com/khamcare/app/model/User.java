@@ -1,9 +1,13 @@
 package com.khamcare.app.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 @Entity
 @Table(name = "users")
@@ -22,9 +26,14 @@ public class User {
     @Column(name="email", nullable = false)
     String email;
 
+    @JsonIgnore
     @Column(name="password", nullable = false)
     String password;
 
+    @JsonIgnore
     @Transient
     String passwordConfirmation;
+
+    @Column(name="avatar_url")
+    String avatarUrl;
 }

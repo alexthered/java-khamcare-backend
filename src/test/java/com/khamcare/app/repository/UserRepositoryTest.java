@@ -51,7 +51,7 @@ public class UserRepositoryTest {
     public void testFindUserById() throws Exception {
         User user = Fixture.from(User.class).gimme("valid");
 
-        User savedUser = userRepository.save(user);
+        userRepository.save(user);
 
         User foundUser = userRepository.findOne(user.getId());
 
