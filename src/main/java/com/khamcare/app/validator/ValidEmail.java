@@ -1,4 +1,4 @@
-package com.khamcare.app.boundary.validation;
+package com.khamcare.app.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,4 +1,4 @@
-package com.khamcare.app.controller;
+package com.khamcare.app.request;
 
 import com.khamcare.app.AppApplication;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 @SpringBootTest(classes = AppApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-public class HealthControllerIT {
+public class HealthControllerTest {
 
     @LocalServerPort
     private int port;

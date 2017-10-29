@@ -1,10 +1,15 @@
-package com.khamcare.app.boundary.validation;
+package com.khamcare.app.validator;
+
+import com.khamcare.app.validator.ValidEmail;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * valid email validator
+ */
 public class ValidEmailValidator implements
         ConstraintValidator<ValidEmail, String> {
 

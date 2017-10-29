@@ -1,7 +1,7 @@
 package com.khamcare.app.boundary;
 
-import com.khamcare.app.boundary.validation.ValidEmail;
 import com.khamcare.app.model.User;
+import com.khamcare.app.validator.ValidEmail;
 import lombok.Data;
 
 import javax.validation.constraints.AssertTrue;

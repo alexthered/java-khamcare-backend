@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 @DataJpaTest
 @TestPropertySource(
         locations = "classpath:application-integrationtest.properties")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class UserRepositoryTest {
 
     @Autowired
