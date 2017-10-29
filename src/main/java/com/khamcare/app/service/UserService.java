@@ -1,5 +1,6 @@
 package com.khamcare.app.service;
 
+import com.khamcare.app.boundary.UserForm;
 import com.khamcare.app.boundary.error.DuplicationException;
 import com.khamcare.app.model.User;
 import com.khamcare.app.repository.UserRepository;
@@ -46,4 +47,11 @@ public class UserService {
         }
     }
 
+    /**
+     *
+     * @param user
+     */
+    public void deleteUser(User user){
+        userRepository.delete(user);
+    }
 }

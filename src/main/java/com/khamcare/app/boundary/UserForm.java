@@ -1,7 +1,8 @@
 package com.khamcare.app.boundary;
 
+import com.khamcare.app.boundary.validator.MatchingPasswordConfirmation;
 import com.khamcare.app.model.User;
-import com.khamcare.app.validator.ValidEmail;
+import com.khamcare.app.boundary.validator.ValidEmail;
 import lombok.Data;
 
 import javax.validation.constraints.AssertTrue;
@@ -9,31 +10,26 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class UserPostForm {
+@MatchingPasswordConfirmation
+public class UserForm {
 
-    @NotNull
+    @NotNull(groups = Post.class)
     String firstName;
 
-    @NotNull
+    @NotNull(groups = Post.class)
     String lastName;
 
-    @NotNull
+    @NotNull(groups = Post.class)
     @ValidEmail
     String email;
 
-    @NotNull
+    @NotNull(groups = Post.class)
     @Size(min = 6, max = 100)
     String password;
 
-    @NotNull
+    @NotNull(groups = Post.class)
     @Size(min = 6, max = 100)
     String passwordConfirmation;
-
-    //assert that the password and password confirmation must match each other
-    @AssertTrue(message = "does not match password")
-    public boolean isPasswordConfirmationMatch() {
-        return password.equals(passwordConfirmation);
-    }
 
     public User buildUser(){
         return User.builder()
@@ -43,6 +39,23 @@ public class UserPostForm {
                 .password(password)
                 .passwordConfirmation(passwordConfirmation)
                 .build();
+    }
+
+    public User mergeUser(User user){
+        if (firstName != null) user.setFirstName(firstName);
+        if (lastName != null) user.setLastName(lastName);
+        if (email != null) user.setFirstName(firstName);
+        if (password != null) user.setPassword(password);
+
+        return user;
+    }
+
+    public interface Post {
+
+    }
+
+    public interface Put {
+
     }
 
 }
