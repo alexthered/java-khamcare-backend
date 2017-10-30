@@ -14,6 +14,7 @@ public class UserTemplateLoader implements TemplateLoader {
             add("lastName", lastName());
             add("email", "${firstName}.${lastName}@gmail.com");
             add("password", new RandomString(10).nextString());
+            add("passwordConfirmation", "${password}");
         }});
     }
 }

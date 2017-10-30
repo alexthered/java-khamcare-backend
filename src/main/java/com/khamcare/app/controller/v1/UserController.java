@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -37,10 +36,10 @@ public class UserController {
     public ResponseEntity<Void> createUser(@RequestBody @Validated(UserForm.Post.class) UserForm userForm, UriComponentsBuilder uriComponentsBuilder){
         User newUser = userForm.buildUser();
         try {
-            User user = userService.saveUser(newUser);
+            User user = userService.insertUser(newUser);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setLocation(uriComponentsBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
+            headers.setLocation(uriComponentsBuilder.path("/v1/users/{id}").buildAndExpand(user.getId()).toUri());
 
             return new ResponseEntity<>(headers, HttpStatus.CREATED);
         } catch (DuplicationException e){
@@ -56,9 +55,7 @@ public class UserController {
             throw new EntityNotFoundException(String.format("User entity cannot be found {id=%d}.", userId));
         }
 
-        user = userForm.mergeUser(user);
-
-        User updatedUser = userService.saveUser(user);
+        User updatedUser = userService.updateUser(user, userForm);
 
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }

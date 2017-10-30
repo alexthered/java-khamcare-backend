@@ -41,15 +41,6 @@ public class UserForm {
                 .build();
     }
 
-    public User mergeUser(User user){
-        if (firstName != null) user.setFirstName(firstName);
-        if (lastName != null) user.setLastName(lastName);
-        if (email != null) user.setFirstName(firstName);
-        if (password != null) user.setPassword(password);
-
-        return user;
-    }
-
     public interface Post {
 
     }

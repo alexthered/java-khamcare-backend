@@ -23,7 +23,7 @@ public class User {
     @Column(name="last_name", nullable = false)
     String lastName;
 
-    @Column(name="email", nullable = false)
+    @Column(name="email", nullable = false, unique = true)
     String email;
 
     @JsonIgnore
