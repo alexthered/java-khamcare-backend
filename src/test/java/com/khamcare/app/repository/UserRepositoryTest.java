@@ -3,28 +3,26 @@ package com.khamcare.app.repository;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import com.khamcare.app.model.User;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
-@TestPropertySource(
-        locations = "classpath:application-integrationtest.properties")
-@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
+@DataMongoTest
+@ActiveProfiles("it-embedded")
 public class UserRepositoryTest {
 
     @Autowired
-    TestEntityManager testEntityManager;
+    MongoTemplate mongoTemplate;
 
     @Autowired
     UserRepository userRepository;
@@ -34,12 +32,23 @@ public class UserRepositoryTest {
         FixtureFactoryLoader.loadTemplates("com.khamcare.app.fixture");
     }
 
+    private String collectionName;
+
+    @Before
+    public void before() {
+        collectionName = "users";
+    }
+
+    @After
+    public void after() {
+        mongoTemplate.dropCollection(collectionName);
+    }
+
     @Test
     public void testFindUserByEmail() throws Exception {
         // given
         User user = Fixture.from(User.class).gimme("valid");
-        testEntityManager.persist(user);
-        testEntityManager.flush();
+        mongoTemplate.save(user, collectionName);
 
         // when
         User found = userRepository.findUserByEmail(user.getEmail());
@@ -64,8 +73,7 @@ public class UserRepositoryTest {
     public void testUpdateUser() throws Exception {
         // given
         User user = Fixture.from(User.class).gimme("valid");
-        testEntityManager.persist(user);
-        testEntityManager.flush();
+        mongoTemplate.save(user, collectionName);
 
         user.setFirstName("My new first name");
         User updatedUser = userRepository.save(user);

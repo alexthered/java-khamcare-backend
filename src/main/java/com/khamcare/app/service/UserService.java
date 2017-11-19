@@ -25,7 +25,7 @@ public class UserService {
      * @param id
      * @return
      */
-    public User findUserById(Long id){
+    public User findUserById(String id){
         return userRepository.findOne(id);
     }
 
@@ -39,7 +39,7 @@ public class UserService {
     }
 
     /**
-     *
+     * insert a new user into the database
      * @param user
      * @return
      */
@@ -55,7 +55,7 @@ public class UserService {
     }
 
     /**
-     *
+     * update user's entity
      * @param user
      * @param userForm
      * @return
@@ -74,7 +74,7 @@ public class UserService {
     }
 
     /**
-     *
+     * delete a user
      * @param user
      */
     public void deleteUser(User user){

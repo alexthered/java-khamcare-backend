@@ -2,38 +2,34 @@ package com.khamcare.app.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-@Entity
-@Table(name = "users")
+@Document(collection = "users")
 public class User {
 
     @Id
-    @GeneratedValue
-    Long id;
+    String id;
 
-    @Column(name="first_name", nullable = false)
     String firstName;
 
-    @Column(name="last_name", nullable = false)
     String lastName;
 
-    @Column(name="email", nullable = false, unique = true)
+    @Indexed(unique = true)
     String email;
 
     @JsonIgnore
-    @Column(name="password", nullable = false)
     String password;
 
     @JsonIgnore
     @Transient
     String passwordConfirmation;
 
-    @Column(name="avatar_url")
     String avatarUrl;
 }

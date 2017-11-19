@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = AppApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class UserControllerTest extends BaseControllerTestHelper {
+public class UserControllerTest {
 
     User user;
     UserForm userForm;
