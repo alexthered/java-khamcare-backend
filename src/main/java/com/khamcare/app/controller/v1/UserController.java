@@ -2,6 +2,7 @@ package com.khamcare.app.controller.v1;
 
 import com.khamcare.app.boundary.UserForm;
 import com.khamcare.app.boundary.error.DuplicationException;
+import com.khamcare.app.boundary.error.NotFoundException;
 import com.khamcare.app.model.User;
 import com.khamcare.app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 
 @RestController
 @RequestMapping("/v1/users")
@@ -21,12 +21,12 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUser(@PathVariable("userId") Long userId){
-        User user = userService.findUserById(userId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<User> getUser(@PathVariable("id") String id){
+        User user = userService.findUserById(id);
 
         if (user == null){
-            throw new EntityNotFoundException(String.format("User entity cannot be found {id=%d}.", userId));
+            throw new NotFoundException(String.format("User entity cannot be found {id=%s}.", id));
         }
 
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -47,12 +47,12 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
-    public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody @Validated(UserForm.Put.class) UserForm userForm) {
-        User user = userService.findUserById(userId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<User> updateUser(@PathVariable("id") String id, @RequestBody @Validated(UserForm.Put.class) UserForm userForm) {
+        User user = userService.findUserById(id);
 
         if (user == null){
-            throw new EntityNotFoundException(String.format("User entity cannot be found {id=%d}.", userId));
+            throw new NotFoundException(String.format("User entity cannot be found {id=%s}.", id));
         }
 
         User updatedUser = userService.updateUser(user, userForm);
@@ -60,12 +60,12 @@ public class UserController {
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> deleteUser(@PathVariable("userId") Long userId){
-        User user = userService.findUserById(userId);
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") String id){
+        User user = userService.findUserById(id);
 
         if (user == null){
-            throw new EntityNotFoundException(String.format("User entity cannot be found {id=%d}.", userId));
+            throw new NotFoundException(String.format("User entity cannot be found {id=%s}.", id));
         }
 
         userService.deleteUser(user);

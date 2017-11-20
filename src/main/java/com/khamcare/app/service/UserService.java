@@ -65,7 +65,7 @@ public class UserService {
         //only update the field if it's not null
         if (userForm.getFirstName() != null) user.setFirstName(userForm.getFirstName());
         if (userForm.getLastName() != null) user.setLastName(userForm.getLastName());
-        if (userForm.getEmail() != null) user.setFirstName(userForm.getEmail());
+        if (userForm.getEmail() != null) user.setEmail(userForm.getEmail());
         if (userForm.getPassword() != null){
             user.setPassword(passwordEncoder.encode(userForm.getPassword()));
         }

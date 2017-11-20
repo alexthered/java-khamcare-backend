@@ -14,8 +14,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.persistence.EntityNotFoundException;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -84,9 +82,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
      * @param ex
      * @return
      */
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler(NotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(
-            EntityNotFoundException ex) {
+            NotFoundException ex) {
         ApiError apiError = new ApiError(NOT_FOUND);
         apiError.setMessage(ex.getMessage());
         return buildResponseEntity(apiError);
